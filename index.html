@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Joki MLBB xyZ | Premium Service</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Color Palette Premium xyZ */
+            --bg-deep: #09090b;
+            --bg-card: #18181b;
+            --bg-input: #27272a;
+            --accent: #FFD700; /* Gold Premium */
+            --accent-glow: rgba(255, 215, 0, 0.15);
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border: #3f3f46;
+            --glass-nav: rgba(24, 24, 27, 0.85);
+            --radius-box: 16px;
+            --radius-input: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            background-image: 
+                radial-gradient(circle at 0% 0%, var(--accent-glow) 0%, transparent 40%),
+                radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.1) 0%, transparent 40%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding-bottom: 140px; /* Space agar konten tidak tertutup tombol bawah */
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px; /* Mobile first width */
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- BRANDING HEADER --- */
+        .brand-header {
+            text-align: center;
+            margin: 20px 0 30px;
+            position: relative;
+        }
+        
+        .brand-logo {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff 40%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .brand-tagline {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .verified-badge { color: #3b82f6; font-size: 0.9rem; }
+
+        /* --- CUSTOM TABS --- */
+        .nav-tabs {
+            display: flex;
+            background: var(--bg-card);
+            padding: 5px;
+            border-radius: 50px; /* Pill shape */
+            border: 1px solid var(--border);
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            z-index: 2;
+            transition: color 0.3s;
+        }
+
+        .nav-item.active { color: #000; }
+
+        /* Sliding Background for Tabs */
+        .nav-slider {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            height: calc(100% - 10px);
+            width: calc(50% - 5px);
+            background: var(--accent);
+            border-radius: 40px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        /* --- CONTENT CARDS --- */
+        .content-section { display: none; animation: slideUp 0.4s ease forwards; }
+        .content-section.active { display: block; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-box);
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .card-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--accent);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .card-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* --- INPUT STYLING --- */
+        .form-group { margin-bottom: 20px; }
+
+        .input-label {
+            display: block;
+            font-size: 0.85rem;
+            color: #fff;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            z-index: 10;
+        }
+
+        .form-control {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid transparent;
+            color: #fff;
+            padding: 14px 14px 14px 45px; /* Space for icon */
+            border-radius: var(--radius-input);
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.05);
+            background: #2a2a2e;
+        }
+
+        .helper-text {
+            display: block;
+            margin-top: 6px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .helper-text i { margin-right: 4px; color: var(--accent); }
+
+        /* Toggle Password */
+        .toggle-btn {
+            position: absolute;
+            right: 16px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* Select Styling */
+        select.form-control {
+            appearance: none;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
+
+        /* --- STICKY BOTTOM BAR --- */
+        .bottom-action {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--glass-nav);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            padding: 20px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            animation: slideUpBottom 0.5s ease-out;
+        }
+
+        @keyframes slideUpBottom {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .price-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+        }
+        
+        .price-label { font-size: 0.9rem; color: var(--text-secondary); }
+        .price-total { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 16px;
+            border-radius: var(--radius-input);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.25);
+        }
+
+        .btn-submit:active { transform: scale(0.98); }
+        .btn-submit:hover { box-shadow: 0 6px 25px rgba(255, 215, 0, 0.35); }
+
+        /* --- INFO BOX --- */
+        .info-box {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 3px solid #3b82f6;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #dbeafe;
+            margin-top: 10px;
+        }
+
+        /* --- FOOTER CREDIT --- */
+        .footer-credit {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #52525b;
+            margin-top: 40px;
+            padding-bottom: 20px;
+        }
+
+        /* Shake Animation for Validation */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .shake { animation: shake 0.3s ease-in-out; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="brand-header">
+        <div class="brand-logo">JOKI MLBB xyZ</div>
+        <div class="brand-tagline">
+            by @xyZ <i class="fas fa-check-circle verified-badge"></i>
+        </div>
+    </div>
+
+    <div class="nav-tabs">
+        <div class="nav-slider" id="navSlider"></div>
+        <div class="nav-item active" onclick="switchTab(0)">Formulir Order</div>
+        <div class="nav-item" onclick="switchTab(1)">Info & Aturan</div>
+    </div>
+
+    <div id="tab-0" class="content-section active">
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon"><i class="fas fa-user-shield"></i></div>
+                <div class="card-title">Data Akun</div>
+            </div>
+
+            <div class="form-group">
+                <label class="input-label">Login Via</label>
+                <div class="input-group">
+                    <i class="fas fa-sign-in-alt input-icon"></i>
+                    <select id="loginVia" class="form-control" required>
+                        <option value="" disabled selected>Pilih Metode Login</option>
+                        <option value="Moonton">Moonton (Paling Aman & Cepat)</option>
+                        <option value="VK">VK</option>
+                        <option value="TikTok">TikTok</option>
+                        <option value="Facebook">Facebook</option>
+                    </select>
+                </div>
+                <small class="helper-text"><i class="fas fa-info-circle"></i> Disarankan menggunakan Moonton/VK agar proses lancar.</small>
+            </div>
+
+            <div class="form-group">
+                <label class="input-label">Email / No. HP</label>
+                <div class="input-group">
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="text" id="email" class="form-control" placeholder="user@email.com">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="input-label">Password</label>
+                <div class="input-group">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" id="password" class="form-control" placeholder="Kata sandi akun">
+                    <button class="toggle-btn" onclick="togglePassword()">
+                        <i class="fas fa-eye" id="eyeIcon"></i>
+                    </button>
+                </div>
+                <small class="helper-text">Privasi Anda 100% aman di sistem xyZ.</small>
+            </div>
+
+            <div class="form-group">
+                <label class="input-label">User ID & Server</label>
+                <div class="input-group">
+                    <i class="fas fa-id-card input-icon"></i>
+                    <input type="text" id="userId" class="form-control" placeholder="Contoh: 12345678 (2025)">
+                </div>
+                <small class="helper-text">Cek profil game di pojok kanan atas, angka di dalam kurung adalah server.</small>
+            </div>
+            
+            <div class="form-group">
+                <label class="input-label">Nickname</label>
+                <div class="input-group">
+                    <i class="fas fa-user-tag input-icon"></i>
+                    <input type="text" id="nickname" class="form-control" placeholder="Nama di dalam game">
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon"><i class="fas fa-gamepad"></i></div>
+                <div class="card-title">Target Joki</div>
+            </div>
+
+            <div class="form-group">
+                <label class="input-label">Posisi Rank Saat Ini</label>
+                <div class="input-group">
+                    <i class="fas fa-trophy input-icon"></i>
+                    <select id="rankType" class="form-control" onchange="calculatePrice()">
+                        <option value="0" disabled selected>-- Pilih Rank Awal --</option>
+                        <optgroup label="Low Tier">
+                            <option value="3000">Master (Rp 3.000 / Bintang)</option>
+                            <option value="4000">Grandmaster (Rp 4.000 / Bintang)</option>
+                        </optgroup>
+                        <optgroup label="Mid Tier">
+                            <option value="5000">Epic (Rp 5.000 / Bintang)</option>
+                            <option value="6500">Legend (Rp 6.500 / Bintang)</option>
+                        </optgroup>
+                        <optgroup label="High Tier">
+                            <option value="14000">Mythic Grading (Rp 14.000 / Win)</option>
+                            <option value="16000">Mythic Honor (Rp 16.000 / Bintang)</option>
+                            <option value="19000">Mythic Glory (Rp 19.000 / Bintang)</option>
+                            <option value="25000">Mythic Immortal (Rp 25.000 / Bintang)</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <small class="helper-text">Pilih rank dimana posisi akun Anda berada <b>sekarang</b>.</small>
+            </div>
+
+            <div class="form-group">
+                <label class="input-label">Jumlah Order (Bintang/Win)</label>
+                <div class="input-group">
+                    <i class="fas fa-star input-icon"></i>
+                    <input type="number" id="starCount" class="form-control" placeholder="0" min="1" oninput="calculatePrice()">
+                </div>
+                <small class="helper-text">Masukkan jumlah bintang yang ingin didapatkan.</small>
+            </div>
+
+            <div class="form-group">
+                <label class="input-label">Request Hero (Min. 3)</label>
+                <div class="input-group">
+                    <i class="fas fa-mask input-icon"></i>
+                    <input type="text" id="reqHero" class="form-control" placeholder="Cth: Fanny, Ling, Gusion">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="input-label">Catatan Khusus</label>
+                <div class="input-group">
+                    <i class="fas fa-sticky-note input-icon"></i>
+                    <textarea id="catatan" class="form-control" rows="2" placeholder="Cth: Jangan nabrak sesi pagi, main malam saja."></textarea>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <i class="fas fa-exclamation-triangle"></i>
+                <strong>Penting:</strong> Jika order Anda menyebabkan naik rank (Misal Legend ke Mythic), harga sisa bintang akan disesuaikan oleh Admin xyZ via WhatsApp.
+            </div>
+        </div>
+
+    </div>
+
+    <div id="tab-1" class="content-section">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon"><i class="fas fa-book"></i></div>
+                <div class="card-title">S.O.P Joki xyZ</div>
+            </div>
+            
+            <div style="line-height: 1.8; font-size: 0.9rem; color: #d4d4d8;">
+                <p><strong>1. Verifikasi Akun</strong><br>
+                Matikan fitur "Verifikasi Perangkat Baru" (New Device Verification) agar penjoki bisa login dengan cepat tanpa menunggu kode.</p>
+                <hr style="border: 0; border-top: 1px solid var(--border); margin: 15px 0;">
+                
+                <p><strong>2. Dilarang Nabrak</strong><br>
+                Dilarang login ke dalam akun selama proses joki berlangsung. Jika login tanpa izin 3x, joki dianggap <strong>SELESAI/HANGUS</strong>.</p>
+                <hr style="border: 0; border-top: 1px solid var(--border); margin: 15px 0;">
+
+                <p><strong>3. Indikator Selesai</strong><br>
+                Admin @xyZ akan mengirimkan screenshot bukti hasil pertandingan jika joki telah selesai.</p>
+                <hr style="border: 0; border-top: 1px solid var(--border); margin: 15px 0;">
+
+                <p><strong>4. Keamanan Data</strong><br>
+                Data akun akan dihapus dari device penjoki segera setelah order selesai. Disarankan mengganti password setelah joki tuntas.</p>
+            </div>
+        </div>
+        <div class="footer-credit">
+            &copy; 2025 Joki MLBB xyZ. All Rights Reserved.
+        </div>
+    </div>
+    
+    <div class="footer-credit" style="margin-top:0">
+        by @xyZ
+    </div>
+
+</div>
+
+<div class="bottom-action" id="bottomNav">
+    <div class="price-display">
+        <span class="price-label">Estimasi Total:</span>
+        <span class="price-total" id="displayPrice">Rp 0</span>
+    </div>
+    <button class="btn-submit" onclick="sendToWhatsapp()" id="btnOrder">
+        <i class="fab fa-whatsapp" style="font-size: 1.2rem;"></i> Checkout via WhatsApp
+    </button>
+</div>
+
+<script>
+    // --- UI LOGIC ---
+    
+    // Tab Switching dengan Animasi Slider
+    function switchTab(index) {
+        const slider = document.getElementById('navSlider');
+        const contents = document.querySelectorAll('.content-section');
+        const navItems = document.querySelectorAll('.nav-item');
+        const bottomNav = document.getElementById('bottomNav');
+
+        // Move slider
+        if (index === 0) {
+            slider.style.transform = 'translateX(0)';
+            bottomNav.style.display = 'flex';
+        } else {
+            slider.style.transform = 'translateX(100%)';
+            bottomNav.style.display = 'none';
+        }
+
+        // Active States
+        navItems.forEach(item => item.classList.remove('active'));
+        navItems[index].classList.add('active');
+
+        // Content Switching
+        contents.forEach(content => content.classList.remove('active'));
+        contents[index].classList.add('active');
+    }
+
+    // Toggle Password Visibility
+    function togglePassword() {
+        const input = document.getElementById('password');
+        const icon = document.getElementById('eyeIcon');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+
+    // Format Rupiah
+    const formatRupiah = (number) => {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        }).format(number);
+    }
+
+    // Realtime Calculation
+    function calculatePrice() {
+        const rankPrice = document.getElementById('rankType').value;
+        const starCount = document.getElementById('starCount').value;
+        const display = document.getElementById('displayPrice');
+        
+        let total = 0;
+        if(rankPrice && starCount) {
+            total = parseInt(rankPrice) * parseInt(starCount);
+        }
+        display.innerText = formatRupiah(total);
+        return total;
+    }
+
+    // --- ORDER LOGIC ---
+    function sendToWhatsapp() {
+        // 1. Get Values
+        const loginVia = document.getElementById('loginVia').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const userId = document.getElementById('userId').value;
+        const nickname = document.getElementById('nickname').value;
+        
+        const rankSelect = document.getElementById('rankType');
+        const rankVal = rankSelect.value;
+        let rankName = rankSelect.options[rankSelect.selectedIndex]?.text || "-";
+        rankName = rankName.split(' (')[0]; // Bersihkan teks harga
+
+        const stars = document.getElementById('starCount').value;
+        const reqHero = document.getElementById('reqHero').value;
+        const catatan = document.getElementById('catatan').value;
+        const total = calculatePrice();
+
+        // 2. Validation
+        if(!loginVia || !email || !password || !userId || rankVal == "0" || !stars) {
+            // Shake button effect
+            const btn = document.getElementById('btnOrder');
+            btn.classList.add('shake');
+            setTimeout(() => btn.classList.remove('shake'), 500);
+            
+            // Native alert diganti dengan highlight border (optional) tapi alert tetap aman untuk memastikan user sadar
+            alert("Harap lengkapi formulir Order (Login, Akun, dan Target Rank)!");
+            return;
+        }
+
+        // 3. Admin Phone Number (GANTI DISINI)
+        const phoneNumber = "6283821485725"; 
+
+        // 4. Construct Message
+        let msg = `*ORDER JOKI MLBB @xyZ* 🚀\n`;
+        msg += `==========================\n\n`;
+        
+        msg += `👤 *DATA AKUN*\n`;
+        msg += `• Login: ${loginVia}\n`;
+        msg += `• Email/HP: ${email}\n`;
+        msg += `• Password: ${password}\n`;
+        msg += `• ID & Server: ${userId}\n`;
+        msg += `• Nickname: ${nickname}\n\n`;
+
+        msg += `🎮 *TARGET JOKI*\n`;
+        msg += `• Rank Awal: ${rankName}\n`;
+        msg += `• Target: +${stars} Bintang/Win\n`;
+        msg += `• Req Hero: ${reqHero || '-'}\n`;
+        msg += `• Catatan: ${catatan || '-'}\n\n`;
+
+        msg += `💰 *TOTAL ESTIMASI: ${formatRupiah(total)}*\n`;
+        msg += `_Mohon dibantu validasi min, terima kasih!_`;
+
+        // 5. Send
+        const encodedMsg = encodeURIComponent(msg);
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const url = isMobile 
+            ? `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMsg}`
+            : `https://web.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMsg}`;
+            
+        window.open(url, '_blank');
+    }
+</script>
+
+</body>
+</html>
